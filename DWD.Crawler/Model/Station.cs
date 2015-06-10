@@ -1,6 +1,6 @@
 ﻿namespace DWD.Crawler.Model {
     /// <summary>
-    /// Measure station.
+    /// Measuring station.
     /// </summary>
     public class Station {
         /// <summary>

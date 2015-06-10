@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Runtime.InteropServices.WindowsRuntime;
 using DWD.Crawler.Contract;
 using DWD.Crawler.Util;
 
@@ -10,27 +9,27 @@ namespace DWD.Crawler.Provider {
     /// Base class for remote providers. Use this if you need FTP, Unzip and 
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class RemoteProviderBase<T> : IProvider<T> {
-        protected abstract string Url { get; }
+    public abstract class RemoteProviderBase<T> {
         protected abstract IParser<T> GetParser();
 
-        public virtual IEnumerable<T> Get() {
-            return Get(Url);
-        }
-
-        public virtual IEnumerable<T> Get(string url) {
+        protected virtual IEnumerable<T> Get(string url) {
             IEnumerable<T> list = null;
 
             using (var responseStream = Download(url)) {
-                var fileStream = Unzip(responseStream);
-                list = GetParser().Parse(fileStream);
+                var stream = responseStream;
+
+                if (HasArchiveFileEnding(url)) {
+                    stream = Unzip(responseStream);
+                }
+
+                list = GetParser().Parse(stream);
             }
 
             return list;
         } 
 
         protected virtual Stream Download(string url) {
-            var request = (FtpWebRequest)WebRequest.Create(Url);
+            var request = (FtpWebRequest)WebRequest.Create(url);
             var response = request.GetResponse();
 
             return response.GetResponseStream();
@@ -42,6 +41,10 @@ namespace DWD.Crawler.Provider {
 
         protected virtual bool ShouldUnzipFile(string fileName) {
             return true;
+        }
+
+        protected virtual bool HasArchiveFileEnding(string url) {
+            return url.EndsWith(".zip");
         }
     }
 }
