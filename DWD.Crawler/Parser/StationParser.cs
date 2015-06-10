@@ -23,8 +23,8 @@ namespace DWD.Crawler.Parser {
                 // data lines
                 if (lineCounter > 1) {
                     stations.Add(new Station {
-                        StationId = int.Parse(GetFromMap(buffer, 0, map)),
-                        Name = GetFromMap(buffer, 6, map)
+                        StationId = int.Parse(GetWithMap(buffer, 0, map)),
+                        Name = GetWithMap(buffer, 6, map)
                     });
                 }
                 // second line contains the column width as "=", separated with spaces
@@ -41,7 +41,7 @@ namespace DWD.Crawler.Parser {
             return stations;
         }
 
-        protected string GetFromMap(string input, short index, Dictionary<short, short> map) {
+        protected string GetWithMap(string input, short index, Dictionary<short, short> map) {
             var start = map.OrderBy(x => x.Key).Where(x => x.Key < index).Sum(x => x.Value);
             return input.Substring(start, map[index]).Trim();
         }

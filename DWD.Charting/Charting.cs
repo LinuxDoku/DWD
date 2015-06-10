@@ -9,7 +9,7 @@ namespace DWD.Charting {
     public class Charting {
         public PlotModel Model { get; set; }
 
-        public Charting(int x, int y) {
+        public Charting() {
             Model = new PlotModel();
             Model.PlotType = PlotType.XY;
         }
