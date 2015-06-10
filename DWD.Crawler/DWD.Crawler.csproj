@@ -43,14 +43,15 @@
   <ItemGroup>
     <Compile Include="Contract\IParser.cs" />
     <Compile Include="Contract\IProvider.cs" />
-    <Compile Include="Contract\IRemoteProvider.cs" />
     <Compile Include="Model\AirTemperature.cs" />
     <Compile Include="Model\QualityLevel.cs" />
     <Compile Include="Model\Station.cs" />
     <Compile Include="Parser\AirTemperatureParser.cs" />
     <Compile Include="Parser\ParserBase.cs" />
+    <Compile Include="Parser\StationParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Provider\AirTemperatureProvider.cs" />
+    <Compile Include="Provider\RemoteProviderBase.cs" />
     <Compile Include="Provider\StationProvider.cs" />
     <Compile Include="Util\StreamHelper.cs" />
     <Compile Include="Util\ZipUtil.cs" />

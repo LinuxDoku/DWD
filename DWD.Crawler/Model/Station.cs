@@ -1,4 +1,7 @@
 ﻿namespace DWD.Crawler.Model {
+    /// <summary>
+    /// Measure station.
+    /// </summary>
     public class Station {
         /// <summary>
         /// DWD ID of the Station. E.g. 3621 for Reimlingen.

@@ -7,9 +7,9 @@ using DWD.Crawler.Util;
 
 namespace DWD.Crawler.Parser {
     public class AirTemperatureParser : ParserBase, IParser<AirTemperature> {
-        private readonly IProvider<Station> _stationProvider;
-        public AirTemperatureParser(IProvider<Station> stationProvider) {
-            _stationProvider = stationProvider;
+        private readonly IEnumerable<Station> _stationList;
+        public AirTemperatureParser(IEnumerable<Station> stationList) {
+            _stationList = stationList;
         }
 
         public IEnumerable<AirTemperature> Parse(Stream contentStream) {
@@ -30,13 +30,13 @@ namespace DWD.Crawler.Parser {
 
         protected AirTemperature ParseLine(string line) {
             var splitted = line.Split(';');
-            if (!splitted.Any() || splitted[0] == "STATIONS_ID") {
+            if (!splitted.Any() || splitted[0] == "STATIONS_ID" || splitted.Length < 6) {
                 return null;
             }
 
             var temperature = new AirTemperature {
-                Station = _stationProvider.Get().First(x => x.StationId == int.Parse(splitted[0])),
-                MeasuredAt = ParseDateWithHour(splitted[1]),
+                Station = _stationList.First(x => x.StationId == int.Parse(splitted[0])),
+                MeasuredAt = ParseDate(splitted[1]),
                 Temperature = ParseDecimal(splitted[4].Trim()),
                 RelativeHumidity = ParseDecimal(splitted[5].Trim())
             };
