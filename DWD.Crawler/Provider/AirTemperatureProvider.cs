@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using DWD.Crawler.Contract;
+using DWD.Crawler.Contract.Provider;
 using DWD.Crawler.Model;
 using DWD.Crawler.Parser;
 
 namespace DWD.Crawler.Provider {
-    public class AirTemperatureProvider : RemoteProviderBase<AirTemperature> {
+    public class AirTemperatureProvider : RemoteProviderBase<AirTemperature>, IAirTemperatureProvider {
         private const string UrlPattern = "ftp://ftp-cdc.dwd.de/pub/CDC/observations_germany/climate/hourly/air_temperature/recent/stundenwerte_TU_[STATION_ID]_akt.zip";
 
         private readonly IEnumerable<Station> _stationList;

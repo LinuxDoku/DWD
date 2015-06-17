@@ -15,7 +15,6 @@ namespace DWD.Console {
                 System.Console.WriteLine("{0}: {1} °C", temperature.Station.Name, temperature.Temperature);
             }
 
-
             System.Console.ReadLine();
 
         }
