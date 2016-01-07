@@ -23,7 +23,12 @@ namespace DWD.Crawler.Provider {
         }
 
         public IEnumerable<AirTemperature> GetByStationName(string stationName) {
-            var station = _stationList.First(x => x.Name == stationName);
+            var station = _stationList.FirstOrDefault(x => x.Name == stationName);
+
+            if (station == null) {
+                return null;
+            }
+
             return GetByStationId(station.StationId);
         }
 
@@ -32,10 +37,7 @@ namespace DWD.Crawler.Provider {
         }
 
         protected override IParser<AirTemperature> GetParser() {
-            if (_parser == null) {
-                _parser = new AirTemperatureParser(_stationList);
-            }
-            return _parser;
+            return _parser ?? (_parser = new AirTemperatureParser(_stationList));
         }
 
         protected override bool ShouldUnzipFile(string fileName) {
