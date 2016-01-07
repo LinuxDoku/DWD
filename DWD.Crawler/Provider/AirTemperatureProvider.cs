@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using DWD.Crawler.Contract;
 using DWD.Crawler.Contract.Provider;
@@ -15,7 +14,7 @@ namespace DWD.Crawler.Provider {
 
         public AirTemperatureProvider() : this(new StationProvider()) {}
 
-        public AirTemperatureProvider(StationProvider stationProvider) {
+        public AirTemperatureProvider(IStationProvider stationProvider) {
             _stationList = stationProvider.GetAll();
         }
 

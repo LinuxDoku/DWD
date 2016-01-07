@@ -8,12 +8,8 @@ namespace DWD.Crawler.Provider {
     public class StationProvider : RemoteProviderBase<Station>, IStationProvider {
         private const string Url = "ftp://ftp-cdc.dwd.de/pub/CDC/observations_germany/climate/hourly/air_temperature/recent/TU_Stundenwerte_Beschreibung_Stationen.txt";
 
-        public IEnumerable<Station> GetAll() {
-            return Get(Url);
-        } 
+        public IEnumerable<Station> GetAll() => Get(Url);
 
-        protected override IParser<Station> GetParser() {
-            return new StationParser();
-        }
+        protected override IParser<Station> GetParser() => new StationParser();
     }
 }

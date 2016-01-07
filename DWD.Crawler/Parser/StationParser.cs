@@ -1,49 +1,55 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
-using System.Linq;
 using DWD.Crawler.Contract;
 using DWD.Crawler.Model;
 using DWD.Crawler.Util;
 
 namespace DWD.Crawler.Parser {
+    /// <summary>
+    /// Parse the raw station data to station models.
+    /// </summary>
     public class StationParser : IParser<Station> {
+        /** example data:
+
+        Stations_id von_datum bis_datum Stationshoehe geoBreite geoLaenge Stationsname Bundesland
+        ----------- --------- --------- ------------- --------- --------- ----------------------------------------- ----------
+                  3 19500401 20110331            202     50.7827    6.0941 Aachen                                   Nordrhein-Westfalen                                                                         
+                 44 20070401 20160105             44     52.9335    8.2370 Großenkneten                             Niedersachsen
+        
+        **/
+
         public IEnumerable<Station> Parse(Stream contentStream) {
             contentStream.Reset();
             var stations = new List<Station>();
-            var map = new Dictionary<short, short>(); // map with index and length per col
             var reader = new StreamReader(contentStream);
             var buffer = "";
             var lineCounter = 0;
 
-            while(!reader.EndOfStream && (buffer = reader.ReadLine()) != null) {
+            while (!reader.EndOfStream && (buffer = reader.ReadLine()) != null) {
                 if (buffer.Length <= 1) {
                     break;
                 }
-
-                // data lines
+           
                 if (lineCounter > 1) {
-                    stations.Add(new Station {
-                        StationId = int.Parse(GetWithMap(buffer, 0, map)),
-                        Name = GetWithMap(buffer, 6, map)
-                    });
-                }
-                // second line contains the column width as "=", separated with spaces
-                else if (lineCounter == 1) {
-                    var splitted = buffer.Split(' ');
-                    for (int i = 0; i < splitted.Length; i++) {
-                        map.Add((short)i, (short)(splitted[i].Length + 1));
-                    }
+                    stations.Add(CreateFromLine(buffer));
                 }
 
                 lineCounter++;
+
             }
 
             return stations;
         }
 
-        protected string GetWithMap(string input, short index, Dictionary<short, short> map) {
-            var start = map.OrderBy(x => x.Key).Where(x => x.Key < index).Sum(x => x.Value);
-            return input.Substring(start, map[index]).Trim();
+        protected Station CreateFromLine(string line) {
+            return new Station {
+                StationId = int.Parse(line.Substring(0, 11).Trim()),
+                GeoLatitude = decimal.Parse(line.Substring(46, 10).Trim(), CultureInfo.InvariantCulture),
+                GeoLongitude = decimal.Parse(line.Substring(56, 10).Trim(), CultureInfo.InvariantCulture),
+                Name = line.Substring(66, 41).Trim(),
+                State = line.Substring(108, line.Length - 108).Trim()
+            };
         }
     }
 }
