@@ -60,9 +60,6 @@ namespace DWD.Console {
             var temperatureProvider = new AirTemperatureProvider();
             var temperatures = temperatureProvider.GetByStationName(station.Trim()).ToList();
 
-            Debugger.Launch();
-
-            // TODO: fix period filtering
             switch (period) {
                 case Period.Current:
                     temperatures.RemoveRange(0, temperatures.Count - 1);
