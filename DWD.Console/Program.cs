@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Runtime.Remoting.Messaging;
 using DWD.Crawler.Model;
 using DWD.Crawler.Provider;
-using Microsoft.Win32;
 using static System.Console;
 
 namespace DWD.Console {
@@ -46,8 +43,7 @@ namespace DWD.Console {
             WriteLine(" help                    |  Show this list of all commands");
             WriteLine();
             WriteLine(" stations                |  List all available stations");
-            WriteLine(" current [STATION]       |  Get the station's current temperature");
-            WriteLine(" today [STATION]         |  Get the station's temperature of each hour today");
+            WriteLine(" last [STATION]          |  Get the station's last temperature");
             WriteLine(" yesterday [STATION]     |  Get the station's temperature of each hour yesterday");
             WriteLine();
         }
@@ -64,13 +60,12 @@ namespace DWD.Console {
             var temperatureProvider = new AirTemperatureProvider();
             var temperatures = temperatureProvider.GetByStationName(station.Trim()).ToList();
 
+            Debugger.Launch();
+
             // TODO: fix period filtering
             switch (period) {
                 case Period.Current:
                     temperatures.RemoveRange(0, temperatures.Count - 1);
-                    break;
-                case Period.Today:
-                    temperatures.RemoveAll(x => x.MeasuredAt.Date != DateTime.Today);
                     break;
                 case Period.Yesterday:
                     temperatures.RemoveAll(x => x.MeasuredAt.Date != DateTime.Today.AddDays(-1));
@@ -78,7 +73,7 @@ namespace DWD.Console {
             }
 
             foreach (var temperature in temperatures) {
-                WriteLine("{0}: {1} °C", temperature.Station.Name, temperature.Temperature);
+                WriteLine("{0}, {1}: {2} °C", temperature.Station.Name, temperature.MeasuredAt, temperature.Temperature);
             }
         }
 
