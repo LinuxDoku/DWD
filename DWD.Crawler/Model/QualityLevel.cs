@@ -1,8 +1,10 @@
-﻿namespace DWD.Crawler.Model {
+﻿using DWD.Crawler.Contract.Model;
+
+namespace DWD.Crawler.Model {
     /// <summary>
     /// Description: http://www.dwd.de/DE/leistungen/klimadatendeutschland/qualitaetsniveau.html
     /// </summary>
-    public class QualityLevel {
+    public class QualityLevel : IQualtityLevel {
         /// <summary>
         /// Level id from the DWD web-site.
         /// </summary>

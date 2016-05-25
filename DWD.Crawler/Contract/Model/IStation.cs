@@ -1,33 +1,28 @@
-﻿using DWD.Crawler.Contract.Model;
-
-namespace DWD.Crawler.Model {
-    /// <summary>
-    /// Measuring station.
-    /// </summary>
-    public class Station : IStation {
+﻿namespace DWD.Crawler.Contract.Model {
+    public interface IStation {
         /// <summary>
         /// DWD ID of the Station. E.g. 3621 for Reimlingen.
         /// </summary>
-        public int StationId { get; set; }
-        
+        int StationId { get; }
+
         /// <summary>
         /// Name of the station.
         /// </summary>
-        public string Name { get; set; }
+        string Name { get; }
 
         /// <summary>
         /// State in which the station is located. E.g. Bayern.
         /// </summary>
-        public string State { get; set; }
+        string State { get; }
 
         /// <summary>
         /// Geo Longitude.
         /// </summary>
-        public decimal GeoLongitude { get; set; } 
+        decimal GeoLongitude { get; }
 
         /// <summary>
         /// Geo Latitude.
         /// </summary>
-        public decimal GeoLatitude { get; set; }
+        decimal GeoLatitude { get; }
     }
 }

@@ -1,31 +1,31 @@
 ﻿using System;
-using DWD.Crawler.Contract.Model;
+using DWD.Crawler.Model;
 
-namespace DWD.Crawler.Model {
-    public class AirTemperature : IAirTemperature {
+namespace DWD.Crawler.Contract.Model {
+    public interface IAirTemperature {
         /// <summary>
         /// Station where the temperature was measured.
         /// </summary>
-        public IStation Station { get; set; }
+        IStation Station { get; }
 
         /// <summary>
         /// DateTime when the temperature was measured.
         /// </summary>
-        public DateTime MeasuredAt { get; set; }
+        DateTime MeasuredAt { get; }
 
         /// <summary>
         /// Quality level of the temperature.
         /// </summary>
-        public IQualtityLevel QualityLevel { get; set; }
+        IQualtityLevel QualityLevel { get; }
 
         /// <summary>
         /// Actual Temperature.
         /// </summary>
-        public decimal Temperature { get; set; }
+        decimal Temperature { get; }
 
         /// <summary>
         /// Relative humidity of the last 24 measures.
         /// </summary>
-        public decimal RelativeHumidity { get; set; }
+        decimal RelativeHumidity { get; }
     }
 }

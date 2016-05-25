@@ -36,6 +36,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contract\IParser.cs" />
+    <Compile Include="Contract\Model\IAirTemperature.cs" />
+    <Compile Include="Contract\Model\IQualtityLevel.cs" />
+    <Compile Include="Contract\Model\IStation.cs" />
     <Compile Include="Contract\Provider\IAirTemperatureProvider.cs" />
     <Compile Include="Contract\Provider\IStationProvider.cs" />
     <Compile Include="Model\AirTemperature.cs" />
